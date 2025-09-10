@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up GHC & Cabal
+        uses: haskell/actions/setup@v2
+        with:
+          ghc-version: '9.6.5'
+          cabal-version: '3.10.2.1'
+
+      - name: Cache cabal
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cabal/packages
+            ~/.cabal/store
+            dist-newstyle
+          key: ${{ runner.os }}-cabal-${{ hashFiles('**/*.cabal', 'cabal.project') }}
+
+      - name: Install tools
+        run: |
+          cabal update
+          cabal install hlint fourmolu --overwrite-policy=always
+
+      - name: Lint (hlint)
+        run: hlint .
+
+      - name: Format check (fourmolu)
+        run: |
+          fourmolu --mode check $(git ls-files '*.hs')
+
+      - name: Configure
+        run: cabal configure --flags=ci
+
+      - name: Build (warnings as errors)
+        env:
+          GHC_OPTIONS: "-Wall -Werror"
+        run: cabal build --ghc-options="$GHC_OPTIONS"
+
+      - name: Test
+        run: cabal test --test-show-details=direct
+
