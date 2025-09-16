@@ -1,0 +1,1 @@
+module Euler.QuadPrimes where
