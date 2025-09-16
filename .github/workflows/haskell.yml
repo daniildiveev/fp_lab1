@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -29,6 +30,9 @@ jobs:
 
       - name: Update Cabal
         run: cabal update
+
+      - name: Install tools
+        run: cabal install hlint fourmolu --overwrite-policy=always
 
       - name: Build dependencies
         run: cabal build --enable-tests --only-dependencies
