@@ -1,9 +1,3 @@
-name: CI
-
-on:
-  push:
-  pull_request:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,8 +7,8 @@ jobs:
       - name: Set up GHC & Cabal
         uses: haskell/actions/setup@v2
         with:
-          ghc-version: "9.6.5"
-          cabal-version: "3.10.2.1"
+          ghc-version: "9.12.2"
+          cabal-version: "3.12.1.0"
 
       - name: Cache cabal
         uses: actions/cache@v4
@@ -23,30 +17,24 @@ jobs:
             ~/.cabal/packages
             ~/.cabal/store
             dist-newstyle
-          key: ${{ runner.os }}-cabal-${{ hashFiles('**/*.cabal', 'cabal.project') }}
+          key: ${{ runner.os }}-ghc-9.12.2-${{ hashFiles('**/*.cabal', 'cabal.project*') }}
+          restore-keys: |
+            ${{ runner.os }}-ghc-9.12.2-
 
-      - name: Install tools
-        run: |
-          cabal update
-          cabal install hlint fourmolu --overwrite-policy=always
+      - name: Update Cabal
+        run: cabal update
+
+      - name: Build dependencies
+        run: cabal build --enable-tests --only-dependencies
 
       - name: Lint (hlint)
-        run: hlint .
+        run: hlint $(git ls-files '*.hs')
 
       - name: Format check (fourmolu)
-        run: |
-          fourmolu --mode check $(git ls-files '*.hs')
+        run: fourmolu --mode check $(git ls-files '*.hs')
 
-      - name: Configure
-        run: cabal configure --flags=ci
-
-      - name: Build (warnings as errors)
-        env:
-          GHC_OPTIONS: "-Wall -Werror"
-        run: cabal build --ghc-options="$GHC_OPTIONS"
-
-      - name: Configure
-        run: cabal configure --enable-tests --flags=ci
+      - name: Build
+        run: cabal build --enable-tests --ghc-options="-Wall -Werror"
 
       - name: Test
-        run: cabal test --test-show-details=direct
+        run: cabal test --enable-tests --test-show-details=direct
