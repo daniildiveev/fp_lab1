@@ -1,11 +1,11 @@
 module Main where
 
 import Euler.PalProduct
-import Euler.QuadPrimes
+-- import Euler.QuadPrimes
 
 main :: IO ()
 main = do
-  putStrLn "Problem 4 (largest palindrome product): " -- <> show largestPalListComp
+  putStrLn $ "Problem 4 (largest palindrome product): " <> show largestPalRec
   -- let (a, b, l, prodAB) = euler27_answer
   -- putStrLn $ "Problem 27 (quadratic primes): a=" <> show a
   --          <> " b=" <> show b
