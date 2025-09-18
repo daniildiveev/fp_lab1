@@ -11,5 +11,14 @@ spec = describe "Euler Problem 4 (palindrome product)" $ do
   it "largestPalTail gives 906609" $
     P.largestPalTail `shouldBe` 906609
 
--- it "largestPalListComp gives 906609" $
---   P.largestPalListComp `shouldBe` 906609
+  it "largestPalModular gives 906609" $
+    P.largestPalModular `shouldBe` 906609
+
+  it "largestPalMap gives 906609" $
+    P.largestPalMap `shouldBe` 906609
+
+  it "largestPalListComp gives 906609" $
+    P.largestPalListComp `shouldBe` 906609
+
+  it "largestPalInfinite gives 906609" $
+    P.largestPalInfinite `shouldBe` 906609
