@@ -1,5 +1,4 @@
 module Euler.PalProduct (
-  isPal,
   largestPalRec,
   largestPalTail,
   largestPalModular,
