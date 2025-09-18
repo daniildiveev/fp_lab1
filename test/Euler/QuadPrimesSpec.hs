@@ -23,9 +23,9 @@ spec = describe "Euler Problem 27 (quad primes)" $ do
   it ("largestQuadPrimesInfinite result = " ++ show infiniteTestValue) $
     infiniteTestValue `shouldBe` (-59231)
  where
-  recTestValue       = Q.largestQuadPrimesRec
-  tailTestValue      = Q.largestQuadPrimesTail
-  modularTestValue   = Q.largestQuadPrimesModular
-  mapTestValue       = Q.largestQuadPrimesMap
-  listCompTestValue  = Q.largestQuadPrimesListComp
-  infiniteTestValue  = Q.largestQuadPrimesInfinite
+  recTestValue = Q.largestQuadPrimesRec
+  tailTestValue = Q.largestQuadPrimesTail
+  modularTestValue = Q.largestQuadPrimesModular
+  mapTestValue = Q.largestQuadPrimesMap
+  listCompTestValue = Q.largestQuadPrimesListComp
+  infiniteTestValue = Q.largestQuadPrimesInfinite

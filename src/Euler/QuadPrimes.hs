@@ -4,7 +4,7 @@ module Euler.QuadPrimes (
   largestQuadPrimesModular,
   largestQuadPrimesMap,
   largestQuadPrimesListComp,
-  largestQuadPrimesInfinite
+  largestQuadPrimesInfinite,
 ) where
 
 import Data.List (maximumBy)
@@ -102,8 +102,11 @@ largestQuadPrimesListComp =
    in productFst2 best
 
 -- INFINITE LISTS --
+runLen :: Int -> Int -> Int
+runLen a b = length . takeWhile isPrime $ [formulaValue a b n | n <- [0 ..]]
+
 largestQuadPrimesInfinite :: Int
 largestQuadPrimesInfinite =
-  let triples = [(a, b, primeRun a b) | a <- as, b <- bs]
+  let triples = [(a, b, runLen a b) | a <- as, b <- bs]
       best = maximumBy (comparing (\(_, _, len) -> len)) triples
    in productFst2 best
