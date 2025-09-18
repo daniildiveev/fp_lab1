@@ -10,6 +10,6 @@ spec = describe "Euler Problem 27 (quad primes)" $ do
 
   it ("largestQuadPrimesTail result = " ++ show tailTestValue) $
     tailTestValue `shouldBe` (-59231)
-  where
-    recTestValue  = Q.largestQuadPrimesRec
-    tailTestValue = Q.largestQuadPrimesTail
+ where
+  recTestValue = Q.largestQuadPrimesRec
+  tailTestValue = Q.largestQuadPrimesTail
